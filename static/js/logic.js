@@ -3,7 +3,9 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_we
 
 // Get request to query URL 
 d3.json(queryUrl, function(data) {
-    
+    createFeatures(data.features);
+});
+
 function markerColor(depth) {
     if (depth >= 90) {
         return "#F20101";
@@ -99,7 +101,5 @@ function createMap(earthquakes) {
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
-
-});
 
 }
