@@ -7,6 +7,8 @@ d3.json(queryUrl, function(data) {
 });
 
 function markerColor(depth) {
+
+    // Conditional to assign color based on depth
     if (depth >= 90) {
         return "#F20101";
     }
@@ -28,7 +30,7 @@ function markerColor(depth) {
 }
 function createFeatures(earthquakeData) {
 
-    // Create popup
+    // Create popup and circles
     var earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: function (feature,layer) {
             layer.bindPopup("<h3> Location: " + feature.properties.place + 
@@ -76,14 +78,14 @@ function createMap(earthquakes) {
         accessToken: API_KEY
     });
 
-    // Define a baseMaps object to hold our base layers
+    // Define a baseMaps object to hold  base layers
     var baseMaps = {
     "Street Map": streetmap,
     "Dark Map": darkmap,
     "Light Map": light
     };
 
-    // Create overlay object to hold our overlay layer
+    // Create overlay object to hold overlay layer
     var overlayMaps = {
     Earthquakes: earthquakes
     };
@@ -96,10 +98,28 @@ function createMap(earthquakes) {
     });
 
     // Create a layer control
-    // Pass in our baseMaps and overlayMaps
-    // Add the layer control to the map
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
 
+    // Create legend
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function () {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            depth = [-10, 10, 30, 50, 70, 90];
+        
+
+        // Loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < depth.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + markerColor(depth[i] + 1) + '"></i> ' +
+                depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    legend.addTo(myMap);
 }
