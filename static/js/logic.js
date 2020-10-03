@@ -25,20 +25,20 @@ function markerColor(depth) {
     };
 }
 function createFeatures(earthquakeData) {
-    // Add circles to map
-    L.circle([earthquakeData.geometry.coordinates[1],
-        earthquakeData.geometry.coordinates[0]], {
-            fillOpacityr: 0.75,
-            fillColor: color,
-            radius: feature.properties.mag * 1000
-        }).bindPopup("<h3> Location: " + feature.properties.place + 
-        "</h3><hr><p>" + "Magnitude: " + feature.properties.mag + 
-        "<br> Depth: " + feature.geometry.coordinates[2])
+
+    // Create popup
+    var earthquakes = L.geoJSON(earthquakeData, {
+        onEachFeature: function (feature,layer) {
+            layer.bindPopup("<h3> Location: " + feature.properties.place + 
+            "</h3><hr><p>" + "Magnitude: " + feature.properties.mag + 
+            "<br> Depth: " + feature.geometry.coordinates[2])
+        },
+    }
 }
 
 function createMap(earthquakes) {
 
-    // Define streetmap and darkmap layers
+    // Define streetmap, darkmap and lightmap layers
     var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
         tileSize: 512,
@@ -87,5 +87,7 @@ function createMap(earthquakes) {
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
-}
+
 });
+
+}
