@@ -33,7 +33,19 @@ function createFeatures(earthquakeData) {
             "</h3><hr><p>" + "Magnitude: " + feature.properties.mag + 
             "<br> Depth: " + feature.geometry.coordinates[2])
         },
-    }
+        pointToLayer: function(feature,latlng) {
+            return new L.circle(latlng, {
+                fillOpacity: 0.75,
+                fillColor: markerColor(feature.geometry.coordinates[2]),
+                radius: (feature.properties.mag) * 20000,
+                stroke: true,
+                color: "#000000",
+                weight: 1
+            })
+        }
+    });
+
+    createMap(earthquakes); 
 }
 
 function createMap(earthquakes) {
