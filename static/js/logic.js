@@ -3,33 +3,27 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_we
 
 // Get request to query URL 
 d3.json(queryUrl, function(data) {
-    var myMap = L.map("mapid", {
-        center: [37.09, -95.71],
-        zoom: 3
-    });
     
-    for (var i = 0; i < data.length;i++) {
-        var color = "";
-        var depth = feature.geometry.coordinates[2]
-        if (depth >= 90) {
-            color = "#F20101";
-        }
-        else if (depth >= 70) {
-            color = "#F26E01";
-        }
-        else if (depth >= 50) {
-            color = "#F2BB01";
-        }
-        else if (depth >= 30) {
-            color="#E4F201";
-        }
-        else if (depth >= 10) {
-            color = "#B8F201";
-        }
-        else {
-            color = "#27F201"
-        };
+function markerColor(depth) {
+    if (depth >= 90) {
+        return "#F20101";
     }
+    else if (depth >= 70) {
+        return "#F26E01";
+    }
+    else if (depth >= 50) {
+        return "#F2BB01";
+    }
+    else if (depth >= 30) {
+        return "#E4F201";
+    }
+    else if (depth >= 10) {
+        return "#B8F201";
+    }
+    else {
+        return "#27F201"
+    };
+}
 function createFeatures(earthquakeData) {
     // Add circles to map
     L.circle([earthquakeData.geometry.coordinates[1],
