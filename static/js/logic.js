@@ -16,4 +16,38 @@ d3.json(queryUrl, function(data) {
       id: "mapbox/streets-v11",
       accessToken: API_KEY
     }).addTo(myMap);
-})
+
+    for (var i = 0; i < data.length;i++) {
+        var color = "";
+        var depth = feature.geometry.coordinates[2]
+        if (depth >= 90) {
+            color = "#F20101";
+        }
+        else if (depth >= 70) {
+            color = "#F26E01";
+        }
+        else if (depth >= 50) {
+            color = "#F2BB01";
+        }
+        else if (depth >= 30) {
+            color="#E4F201";
+        }
+        else if (depth >= 10) {
+            color = "#B8F201";
+        }
+        else {
+            color = "#27F201"
+        };
+    }
+function createFeatures(earthquakeData) {
+    // Add circles to map
+    L.circle([earthquakeData.geometry.coordinates[1],
+        earthquakeData.geometry.coordinates[0]], {
+            fillOpacityr: 0.75,
+            fillColor: color,
+            radius: feature.properties.mag * 1000
+        }).bindPopup("<h3> Location: " + feature.properties.place + 
+        "</h3><hr><p>" + "Magnitude: " + feature.properties.mag + 
+        "<br> Depth: " + feature.geometry.coordinates[2])
+}
+});
