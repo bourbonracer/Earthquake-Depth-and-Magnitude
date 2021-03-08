@@ -37,3 +37,13 @@ First task is to visualize an earthquake data set.
    * Create a legend that will provide context for your map data.
 
    * Visualization will look something like the map above.
+
+#### Currently Working On...
+
+Plotting second data set on the map to illustrate the relationship between tectonic plates and seismic activity.  Will use data on tectonic plates from [here](https://github.com/fraxen/tectonicplates). 
+
+   * Plot second data set on map 
+
+   * Add a number of base maps to choose from as well as separate out the two different data sets into overlays that can be turned on and off independently 
+
+   * Add layer controls to the map
